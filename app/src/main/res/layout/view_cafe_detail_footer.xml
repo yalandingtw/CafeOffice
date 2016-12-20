@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary">
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/tv_distance"
+        android:paddingBottom="@dimen/padding_16"
+        android:paddingLeft="@dimen/padding_16"
+        android:paddingRight="@dimen/padding_16"
+        android:paddingTop="@dimen/padding_8"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        tools:text="凸鼻子現烘咖啡坊" />
+
+    <TextView
+        android:id="@+id/tv_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_name"
+        android:layout_marginBottom="@dimen/padding_8"
+        android:layout_toLeftOf="@+id/btn_navigation"
+        android:paddingLeft="@dimen/padding_8"
+        android:paddingRight="@dimen/padding_8"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        tools:text="凸鼻子現烘咖啡坊" />
+
+    <TextView
+        android:id="@+id/tv_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:gravity="right"
+        android:padding="@dimen/padding_8"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        tools:text="20M" />
+
+
+    <Button
+        android:id="@+id/btn_navigation"
+        android:layout_width="50dp"
+        android:layout_height="24dp"
+        android:layout_alignBottom="@id/tv_address"
+        android:layout_marginRight="@dimen/padding_8"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/round"
+        android:text="@string/navigation"
+        android:textColor="@android:color/white"
+        android:textSize="12sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_address"
+        android:background="@android:color/white"
+        android:paddingLeft="@dimen/padding_32"
+        android:paddingRight="@dimen/padding_32"
+        android:paddingTop="@dimen/padding_16">
+
+        <LinearLayout
+            android:id="@+id/layout_wifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_network_wifi_black_18dp"
+                android:padding="@dimen/padding_8"
+                android:text="@string/text_wifi"
+                android:textColor="@android:color/black"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_rating_wifi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_8"
+                android:textColor="@android:color/black"
+                android:textSize="12sp"
+                tools:text="3.5" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_seat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_event_seat_black_18dp"
+                android:padding="@dimen/padding_8"
+                android:text="@string/text_seat"
+                android:textColor="@android:color/black"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_rating_seat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_8"
+                android:textColor="@android:color/black"
+                android:textSize="12sp"
+                tools:text="3.5" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_quiet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layout_seat"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_surround_sound_black_18dp"
+                android:padding="@dimen/padding_8"
+                android:text="@string/text_quiet"
+                android:textColor="@android:color/black"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_rating_quiet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_8"
+                android:textColor="@android:color/black"
+                android:textSize="12sp"
+                tools:text="3.5" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/layout_tasty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/layout_seat"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_local_cafe_black_18dp"
+                android:padding="@dimen/padding_8"
+                android:text="@string/text_tasty"
+                android:textColor="@android:color/black"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_rating_tasty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_8"
+                android:textColor="@android:color/black"
+                android:textSize="12sp"
+                tools:text="3.5" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_cheap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layout_quiet"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_attach_money_black_18dp"
+                android:padding="@dimen/padding_8"
+                android:text="@string/text_cheap"
+                android:textColor="@android:color/black"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_rating_cheap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_8"
+                android:textColor="@android:color/black"
+                android:textSize="12sp"
+                tools:text="3.5" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_music"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/layout_quiet"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_queue_music_black_18dp"
+                android:padding="@dimen/padding_8"
+                android:text="@string/text_music"
+                android:textColor="@android:color/black"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_rating_music"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_8"
+                android:textColor="@android:color/black"
+                android:textSize="12sp"
+                tools:text="3.5" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">CafeOffice</string>
+    <string name="title_activity_cafe_map">找咖啡</string>
+    <string name="alert_btn_confirm">確定</string>
+    <string name="alert_btn_cancel">取消</string>
+    <string name="msg_loading">Loading...</string>
+    <string name="msg_network_not_found">請檢查網路狀態</string>
+    <string name="close_str">關閉</string>
+    <string name="open_str">找地點</string>
+    <string name="text_wifi">WIFI</string>
+    <string name="text_tasty">CAFE</string>
+    <string name="text_quiet">安靜</string>
+    <string name="text_seat">通常\n有位</string>
+    <string name="text_cheap">價格\n便宜</string>
+    <string name="text_music">音樂\n裝潢</string>
+    <string name="navigation">導航</string>
+    <string name="text_near_my">離我最近</string>
+</resources>
