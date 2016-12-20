@@ -16,6 +16,8 @@ package tw.yalan.cafeoffice.model;
  * limitations under the License.
  */
 
+import tw.yalan.cafeoffice.common.FilterType;
+
 /**
  * Created by Alan Ding on 2016/12/19.
  */
@@ -52,6 +54,7 @@ public class Cafe {
     private String longitude;
 
     private String distance;
+
     public Cafe() {
     }
 
@@ -165,6 +168,24 @@ public class Cafe {
 
     public void setDistance(String distance) {
         this.distance = distance;
+    }
+
+    public double getScoreByFilterType(FilterType type) {
+        switch (type) {
+            case CAFE:
+                return getTasty();
+            case CHEAP:
+                return getCheap();
+            case MUSIC:
+                return getMusic();
+            case WIFI:
+                return getWifi();
+            case SEAT:
+                return getSeat();
+            case QUIET:
+                return getQuiet();
+        }
+        return 0;
     }
 }
 

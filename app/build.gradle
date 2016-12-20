@@ -25,7 +25,7 @@ android {
         }
     }
     buildTypes {
-        debug{
+        debug {
 
         }
         release {
@@ -54,8 +54,12 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.google.android.gms:play-services:10.0.1'
+    compile 'com.android.support:appcompat-v7:' + supportVersion
+    compile 'com.android.support:design:' + supportVersion
+
+    compile 'com.google.android.gms:play-services-maps:10.0.1'
+    compile 'com.google.android.gms:play-services-location:10.0.1'
+
     testCompile 'junit:junit:4.12'
 
     compile 'com.grasea:grandroid-mvp-framework:1.0.8-beta16'
@@ -64,4 +68,5 @@ dependencies {
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     //Picker
     compile 'biz.kasual:materialnumberpicker:1.2.1'
+    compile 'com.getbase:floatingactionbutton:1.10.1'
 }
