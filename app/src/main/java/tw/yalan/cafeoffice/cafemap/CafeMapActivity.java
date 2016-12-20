@@ -233,7 +233,7 @@ public class CafeMapActivity extends LocatorActivity<CafeMapPresenter> implement
                         getPresenter().getCafesData(mCurrentLocation, index);
                         break;
                     case 4:
-                        String url = "https://github.com/ch8154";
+                        String url = "https://github.com/ch8154/CafeOffice";
                         Intent i = new Intent(Intent.ACTION_VIEW);
                         i.setData(Uri.parse(url));
                         startActivity(i);
