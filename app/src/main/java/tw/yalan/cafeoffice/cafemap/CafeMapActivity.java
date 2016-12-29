@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,6 +19,8 @@ import android.view.animation.TranslateAnimation;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -46,6 +47,7 @@ import tw.yalan.cafeoffice.Config;
 import tw.yalan.cafeoffice.R;
 import tw.yalan.cafeoffice.adapter.MenuRecyclerAdapter;
 import tw.yalan.cafeoffice.common.ColorfulDividerItemDecoration;
+import tw.yalan.cafeoffice.common.FilterType;
 import tw.yalan.cafeoffice.common.LocatorActivity;
 import tw.yalan.cafeoffice.common.NavigationAction;
 import tw.yalan.cafeoffice.model.Cafe;
@@ -61,11 +63,27 @@ public class CafeMapActivity extends LocatorActivity<CafeMapPresenter> implement
     @BindView(R.id.drawer)
     DrawerLayout drawer;
     @BindView(R.id.layout_cafe_detail)
-    CafeDetailLayout layoutCafeDetail;
+    CafeDetailLayout cafeDetailLayout;
     @BindView(R.id.detail_layout)
-    RelativeLayout detailLayout;
+    RelativeLayout detailContainer;
     @BindView(R.id.tv_near)
     TextView tvNear;
+    @BindView(R.id.btn_wifi)
+    FloatingActionButton btnWifi;
+    @BindView(R.id.btn_cheap)
+    FloatingActionButton btnCheap;
+    @BindView(R.id.btn_seat)
+    FloatingActionButton btnSeat;
+    @BindView(R.id.btn_quiet)
+    FloatingActionButton btnQuiet;
+    @BindView(R.id.btn_music)
+    FloatingActionButton btnSound;
+    @BindView(R.id.btn_cafe)
+    FloatingActionButton btnCafe;
+    @BindView(R.id.btn_all)
+    FloatingActionButton btnAll;
+    @BindView(R.id.multiple_actions_down)
+    FloatingActionsMenu btnMainFloating;
 
     private GoogleMap mMap;
     private VisibleRegion mCurrentVisibleRegion;
@@ -74,8 +92,62 @@ public class CafeMapActivity extends LocatorActivity<CafeMapPresenter> implement
     private int currentCity = -1;
     private ConcurrentHashMap<String, Marker> mMarkerMap = new ConcurrentHashMap<>();
     private ConcurrentHashMap<Marker, Cafe> mCafeMap = new ConcurrentHashMap<>();
-    private List<Cafe> cafeList;
-    Handler handler = new Handler();
+    private Handler handler = new Handler();
+
+    public void clearMarker() {
+        Config.loge("Clear Marker");
+        if (mMap != null) {
+            handler.post(() -> mMap.clear());
+        }
+//        for (Marker marker : mMarkerMap.values()) {
+//            marker.remove();
+//        }
+        mMarkerMap.clear();
+        mCafeMap.clear();
+    }
+
+    public void onCafesDataIsEmpty() {
+        alert(getString(R.string.alert_data_empty));
+    }
+
+    @OnClick({R.id.btn_all, R.id.btn_cheap, R.id.btn_seat, R.id.btn_quiet, R.id.btn_music, R.id.btn_cafe, R.id.btn_wifi, R.id.multiple_actions_down})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_all:
+                btnMainFloating.collapse();
+                getPresenter().filterCafe(FilterType.ALL);
+                break;
+            case R.id.btn_cheap:
+                btnMainFloating.collapse();
+                getPresenter().filterCafe(FilterType.CHEAP);
+                break;
+            case R.id.btn_seat:
+                btnMainFloating.collapse();
+                getPresenter().filterCafe(FilterType.SEAT);
+
+                break;
+            case R.id.btn_quiet:
+                btnMainFloating.collapse();
+                getPresenter().filterCafe(FilterType.QUIET);
+
+                break;
+            case R.id.btn_music:
+                btnMainFloating.collapse();
+                getPresenter().filterCafe(FilterType.MUSIC);
+
+                break;
+            case R.id.btn_cafe:
+                btnMainFloating.collapse();
+                getPresenter().filterCafe(FilterType.CAFE);
+                break;
+            case R.id.btn_wifi:
+                btnMainFloating.collapse();
+                getPresenter().filterCafe(FilterType.WIFI);
+                break;
+            case R.id.multiple_actions_down:
+                break;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +157,57 @@ public class CafeMapActivity extends LocatorActivity<CafeMapPresenter> implement
         initMap();
         initSlideMenu();
         startFindMyLocation();
+        btnMainFloating.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
+            @Override
+            public void onMenuExpanded() {
+                if (btnAll != null) {
+                    btnAll.setVisibility(View.VISIBLE);
+                }
+                if (btnCafe != null) {
+                    btnCafe.setVisibility(View.VISIBLE);
+                }
+                if (btnSound != null) {
+                    btnSound.setVisibility(View.VISIBLE);
+                }
+                if (btnWifi != null) {
+                    btnWifi.setVisibility(View.VISIBLE);
+                }
+                if (btnSeat != null) {
+                    btnSeat.setVisibility(View.VISIBLE);
+                }
+                if (btnCheap != null) {
+                    btnCheap.setVisibility(View.VISIBLE);
+                }
+                if (btnQuiet != null) {
+                    btnQuiet.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onMenuCollapsed() {
+                if (btnAll != null) {
+                    btnAll.setVisibility(View.GONE);
+                }
+                if (btnCafe != null) {
+                    btnCafe.setVisibility(View.GONE);
+                }
+                if (btnSound != null) {
+                    btnSound.setVisibility(View.GONE);
+                }
+                if (btnWifi != null) {
+                    btnWifi.setVisibility(View.GONE);
+                }
+                if (btnSeat != null) {
+                    btnSeat.setVisibility(View.GONE);
+                }
+                if (btnCheap != null) {
+                    btnCheap.setVisibility(View.GONE);
+                }
+                if (btnQuiet != null) {
+                    btnQuiet.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     private void initSlideMenu() {
@@ -106,13 +229,11 @@ public class CafeMapActivity extends LocatorActivity<CafeMapPresenter> implement
                             return;
                         }
                         currentCity = index;
-                        mMarkerMap.clear();
-                        mCafeMap.clear();
-                        mMap.clear();
+                        clearMarker();
                         getPresenter().getCafesData(mCurrentLocation, index);
                         break;
                     case 4:
-                        String url = "https://github.com/ch8154";
+                        String url = "https://github.com/ch8154/CafeOffice";
                         Intent i = new Intent(Intent.ACTION_VIEW);
                         i.setData(Uri.parse(url));
                         startActivity(i);
@@ -147,18 +268,24 @@ public class CafeMapActivity extends LocatorActivity<CafeMapPresenter> implement
             mCurrentVisibleRegion = mMap.getProjection().getVisibleRegion();
             getPresenter().onCameraIdle();
         });
-        mMap.setOnMapClickListener(latLng -> animateSlideOutFooter());
+        mMap.setOnMapClickListener(latLng -> {
+            if (detailContainer.getVisibility() == View.VISIBLE)
+                animateSlideOutFooter();
+            if (btnMainFloating.isExpanded()) {
+                btnMainFloating.collapse();
+            }
+        });
         mMap.setOnMarkerClickListener(marker -> {
             marker.showInfoWindow();
             Cafe cafe = mCafeMap.get(marker);
             if (cafe != null) {
-                layoutCafeDetail.setCafe(cafe);
-                layoutCafeDetail.getBtnNavigation().setOnClickListener(view -> new NavigationAction(CafeMapActivity.this
+                cafeDetailLayout.setCafe(cafe);
+                cafeDetailLayout.getBtnNavigation().setOnClickListener(view -> new NavigationAction(CafeMapActivity.this
                         , MapUtils.parseToLatLng(mCurrentLocation)
                         , new LatLng(Double.valueOf(cafe.getLatitude())
                         , Double.valueOf(cafe.getLongitude()))
                         , NavigationAction.DRIVING).execute());
-                if (detailLayout.getVisibility() == View.INVISIBLE) {
+                if (detailContainer.getVisibility() == View.INVISIBLE) {
                     animateSlideInFooter(cafe);
                 } else {
                     move(new LatLng(Double.valueOf(cafe.getLatitude()), Double.valueOf(cafe.getLongitude())));
@@ -178,14 +305,14 @@ public class CafeMapActivity extends LocatorActivity<CafeMapPresenter> implement
 
     private void animateSlideInFooter(final Cafe cafe) {
         handler.post(() -> {
-            mMap.setPadding(0, 0, 0, detailLayout.getHeight());
+            mMap.setPadding(0, 0, 0, detailContainer.getHeight());
             TranslateAnimation translateAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0
-                    , Animation.RELATIVE_TO_SELF, -detailLayout.getHeight(), Animation.RELATIVE_TO_SELF, 0);
+                    , Animation.RELATIVE_TO_SELF, -detailContainer.getHeight(), Animation.RELATIVE_TO_SELF, 0);
             translateAnimation.setDuration(500);
             translateAnimation.setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
-                    detailLayout.setVisibility(View.VISIBLE);
+                    detailContainer.setVisibility(View.VISIBLE);
                 }
 
                 @Override
@@ -198,7 +325,7 @@ public class CafeMapActivity extends LocatorActivity<CafeMapPresenter> implement
 
                 }
             });
-            detailLayout.startAnimation(translateAnimation);
+            detailContainer.startAnimation(translateAnimation);
         });
     }
 
@@ -206,7 +333,7 @@ public class CafeMapActivity extends LocatorActivity<CafeMapPresenter> implement
         handler.post(() -> {
             mMap.setPadding(0, 0, 0, 0);
             TranslateAnimation translateAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0
-                    , Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, -detailLayout.getHeight());
+                    , Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, -detailContainer.getHeight());
             translateAnimation.setDuration(500);
             translateAnimation.setAnimationListener(new Animation.AnimationListener() {
                 @Override
@@ -215,7 +342,7 @@ public class CafeMapActivity extends LocatorActivity<CafeMapPresenter> implement
 
                 @Override
                 public void onAnimationEnd(Animation animation) {
-                    detailLayout.setVisibility(View.INVISIBLE);
+                    detailContainer.setVisibility(View.INVISIBLE);
                 }
 
                 @Override
@@ -223,7 +350,7 @@ public class CafeMapActivity extends LocatorActivity<CafeMapPresenter> implement
 
                 }
             });
-            detailLayout.startAnimation(translateAnimation);
+            detailContainer.startAnimation(translateAnimation);
         });
 
     }
@@ -254,10 +381,11 @@ public class CafeMapActivity extends LocatorActivity<CafeMapPresenter> implement
     }
 
     public void updateCafeList(String city, List<Cafe> cafes) {
+        if (cafes != null)
+            Config.loge("總共可顯示筆數:" + cafes.size());
         if (mMap == null) {
             return;
         }
-        this.cafeList = cafes;
         Executors.newSingleThreadExecutor().submit(() -> {
             for (Cafe cafe : cafes) {
                 try {
@@ -300,8 +428,8 @@ public class CafeMapActivity extends LocatorActivity<CafeMapPresenter> implement
     @OnClick(R.id.tv_near)
     public void onClick() {
         if (mCurrentLocation != null) {
-            showLoadingDialog("查詢中...");
-            Executors.newSingleThreadExecutor().submit(() -> getPresenter().searchNearCafe(mCurrentLocation));
+            showLoadingDialog("查詢中...", true);
+            getPresenter().searchNearCafe(mCurrentLocation);
         }
     }
 
@@ -316,37 +444,34 @@ public class CafeMapActivity extends LocatorActivity<CafeMapPresenter> implement
     }
 
     public void showNearMyCafe(Cafe cafe) {
-        handler.post(() -> {
-            if (cafe == null) {
-                Config.loge("沒找到最近的咖啡廳");
-                hideLoadingDialog();
-                return;
+        if (cafe == null) {
+            alert(getString(R.string.alert_donot_find));
+            hideLoadingDialog();
+            return;
+        }
+        if (mMarkerMap.containsKey(cafe.getId())) {
+            Marker marker = mMarkerMap.get(cafe.getId());
+            marker.showInfoWindow();
+            cafeDetailLayout.setCafe(cafe);
+            if (detailContainer.getVisibility() == View.INVISIBLE) {
+                animateSlideInFooter(cafe);
+            } else {
+                move(new LatLng(Double.valueOf(cafe.getLatitude()), Double.valueOf(cafe.getLongitude())));
             }
-            if (mMarkerMap.contains(cafe.getId())) {
-                Marker marker = mMarkerMap.get(cafe.getId());
-                marker.showInfoWindow();
-                if (detailLayout.getVisibility() == View.INVISIBLE) {
-                    animateSlideInFooter(cafe);
-                } else {
-                    move(new LatLng(Double.valueOf(cafe.getLatitude()), Double.valueOf(cafe.getLongitude())));
-                }
-                hideLoadingDialog();
-                return;
-            }
+            hideLoadingDialog();
+            return;
+        }
 
-            fillDistance(cafe);
-            LatLng latLng = new LatLng(Double.valueOf(cafe.getLatitude()), Double.valueOf(cafe.getLongitude()));
+        fillDistance(cafe);
+        LatLng latLng = new LatLng(Double.valueOf(cafe.getLatitude()), Double.valueOf(cafe.getLongitude()));
 //                        Config.loge("add marker:" + cafe.getName());
-            MarkerOptions options = new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place))
-                    .position(latLng)
-                    .title(cafe.getName());
-            handler.post(() -> {
-                Marker marker = mMap.addMarker(options);
-                mCafeMap.put(marker, cafe);
-                mMarkerMap.put(cafe.getId(), marker);
-            });
-            showNearMyCafe(cafe);
-        });
+        MarkerOptions options = new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_place))
+                .position(latLng)
+                .title(cafe.getName());
+        Marker marker = mMap.addMarker(options);
+        mCafeMap.put(marker, cafe);
+        mMarkerMap.put(cafe.getId(), marker);
+        showNearMyCafe(cafe);
     }
 
 //    public void showMarker(Marker marker) {

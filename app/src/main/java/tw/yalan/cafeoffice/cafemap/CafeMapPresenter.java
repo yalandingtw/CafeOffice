@@ -32,6 +32,7 @@ import retrofit2.Response;
 import tw.yalan.cafeoffice.Config;
 import tw.yalan.cafeoffice.api.API;
 import tw.yalan.cafeoffice.common.BasePresenter;
+import tw.yalan.cafeoffice.common.FilterType;
 import tw.yalan.cafeoffice.data.ModelManager;
 import tw.yalan.cafeoffice.model.Cafe;
 import tw.yalan.cafeoffice.utils.MapUtils;
@@ -42,6 +43,7 @@ import tw.yalan.cafeoffice.utils.MapUtils;
 public class CafeMapPresenter extends BasePresenter<CafeMapActivity> {
     Location mCurrentLocation;
     String city = "";
+    FilterType mType = FilterType.ALL;
 
     @Override
     public void onActivityCreate(Bundle extras) {
@@ -115,34 +117,66 @@ public class CafeMapPresenter extends BasePresenter<CafeMapActivity> {
         Config.loge("cafe count:" + cafes.size());
         ArrayList cafeList = new ArrayList(cafes);
         ModelManager.get().getUserModel().putCafeList(cafeList);
-
-        getContract().updateCafeList(city, cafeList);
+        filterCafe(mType);
     }
 
     public void onCameraIdle() {
-        ArrayList<Cafe> cafeList = ModelManager.get().getUserModel().getCafeList();
-        if (cafeList != null) {
-            getContract().updateCafeList(city, cafeList);
-        }
+        filterCafe(mType, false, true);
     }
 
     public void searchNearCafe(Location mCurrentLocation) {
+        Config.loge("search " + mCurrentLocation);
         ArrayList<Cafe> cafeList = ModelManager.get().getUserModel().getCafeList();
         Cafe neaiestCafe = null;
         Integer neaiestDistance = -1;
         LatLng myLocation = MapUtils.parseToLatLng(mCurrentLocation);
-        for (Cafe cafe : cafeList) {
-            String[] distance = MapUtils.getDistance(myLocation, new LatLng(Double.valueOf(cafe.getLatitude()), Double.valueOf(cafe.getLongitude())));
-            if (neaiestDistance == -1) {
-                neaiestCafe = cafe;
-                neaiestDistance = Integer.valueOf(distance[0]);
-            } else {
-                neaiestDistance = Math.min(Integer.valueOf(distance[0]), neaiestDistance);
-                if(Integer.valueOf(distance[0]) == neaiestDistance){
+        if (cafeList != null) {
+            for (Cafe cafe : cafeList) {
+                if (mType != FilterType.ALL) {
+                    if (cafe.getScoreByFilterType(mType) < 3.0d) continue;
+                }
+                String[] distance = MapUtils.getDistance(myLocation, new LatLng(Double.valueOf(cafe.getLatitude()), Double.valueOf(cafe.getLongitude())));
+                Integer distanceM = Integer.valueOf(distance[0]);
+                if (neaiestDistance == -1) {
                     neaiestCafe = cafe;
+                    neaiestDistance = distanceM;
+                } else {
+                    neaiestDistance = Math.min(distanceM, neaiestDistance);
+                    if (distanceM.intValue() == neaiestDistance.intValue()) {
+                        neaiestCafe = cafe;
+                    }
                 }
             }
         }
         getContract().showNearMyCafe(neaiestCafe);
+    }
+
+    public void filterCafe(FilterType type) {
+        filterCafe(type, true, false);
+    }
+
+    public void filterCafe(FilterType type, boolean clearMarker, boolean skipAlert) {
+        this.mType = type;
+        ArrayList<Cafe> cafeList = ModelManager.get().getUserModel().getCafeList();
+        if (cafeList != null) {
+            if (mType == FilterType.ALL) {
+                getContract().updateCafeList(city, cafeList);
+                return;
+            }
+            ArrayList<Cafe> afterFilterList = new ArrayList<>();
+
+            for (Cafe cafe : cafeList) {
+                double scoreByFilterType = cafe.getScoreByFilterType(type);
+                if (scoreByFilterType >= 3.0d) {
+                    afterFilterList.add(cafe);
+                }
+            }
+            if (clearMarker)
+                getContract().clearMarker();
+            getContract().updateCafeList(city, afterFilterList);
+        } else {
+            if (!skipAlert)
+                getContract().onCafesDataIsEmpty();
+        }
     }
 }
