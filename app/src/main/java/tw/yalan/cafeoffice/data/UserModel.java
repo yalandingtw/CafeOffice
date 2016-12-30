@@ -44,4 +44,10 @@ public interface UserModel {
     @Get(value = "CafeList", storage = Storage.Memory, defaultValue = DefaultValue.NULL)
     public ArrayList<Cafe> getCafeList();
 
+    @Put(value = "FilterLevel")
+    public boolean putFilterLevel(String level);
+
+    @Get(value = "FilterLevel", defaultValue = DefaultValue.EMPTY_STRING)
+    public String getFilterLevel();
+
 }

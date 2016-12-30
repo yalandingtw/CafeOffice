@@ -52,7 +52,11 @@ import tw.yalan.cafeoffice.common.LocatorActivity;
 import tw.yalan.cafeoffice.common.NavigationAction;
 import tw.yalan.cafeoffice.model.Cafe;
 import tw.yalan.cafeoffice.model.MenuItem;
+import tw.yalan.cafeoffice.setting.SettingActivity;
 import tw.yalan.cafeoffice.utils.MapUtils;
+//TODO 選地區自動跳到車站.
+//TODO 選擇快篩跳Picker選擇星星
+//TODO 加上Google搜尋
 
 @UsingPresenter(value = CafeMapPresenter.class, singleton = false)
 public class CafeMapActivity extends LocatorActivity<CafeMapPresenter> implements OnMapReadyCallback {
@@ -150,8 +154,7 @@ public class CafeMapActivity extends LocatorActivity<CafeMapPresenter> implement
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void initViews() {
         setContentView(R.layout.activity_cafe_map);
         ButterKnife.bind(this);
         initMap();
@@ -232,7 +235,10 @@ public class CafeMapActivity extends LocatorActivity<CafeMapPresenter> implement
                         clearMarker();
                         getPresenter().getCafesData(mCurrentLocation, index);
                         break;
-                    case 4:
+                    case 4://設定
+                        changeToActivity(SettingActivity.class, null);
+                        break;
+                    case 5://GitHub
                         String url = "https://github.com/ch8154/CafeOffice";
                         Intent i = new Intent(Intent.ACTION_VIEW);
                         i.setData(Uri.parse(url));
@@ -249,6 +255,7 @@ public class CafeMapActivity extends LocatorActivity<CafeMapPresenter> implement
         adapter.getList().add(new MenuRecyclerAdapter.ItemObject(new MenuItem(R.drawable.ic_search, "找新竹")));
         adapter.getList().add(new MenuRecyclerAdapter.ItemObject(new MenuItem(R.drawable.ic_search, "找台中")));
         adapter.getList().add(new MenuRecyclerAdapter.ItemObject(new MenuItem(R.drawable.ic_search, "找高雄")));
+        adapter.getList().add(new MenuRecyclerAdapter.ItemObject(new MenuItem(R.drawable.ic_settings_black_24dp, "設定")));
         adapter.getList().add(new MenuRecyclerAdapter.ItemObject(new MenuItem(R.drawable.ic_github, "GitHub")));
 
     }

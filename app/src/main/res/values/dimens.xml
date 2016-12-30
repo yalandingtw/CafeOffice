@@ -10,6 +10,9 @@
     <dimen name="padding_48">48dp</dimen>
     <dimen name="padding_56">56dp</dimen>
     <dimen name="slide_menu_width">250dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
 
 
 </resources>

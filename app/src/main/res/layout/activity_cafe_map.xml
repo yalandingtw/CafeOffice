@@ -1,8 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -21,7 +21,7 @@
             android:padding="@dimen/padding_4"
             android:text="@string/text_near_my"
             android:textColor="@android:color/white"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
     </android.support.v7.widget.Toolbar>
 
 
@@ -43,7 +43,7 @@
                 android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context="tw.yalan.cafeoffice.cafemap.CafeMapActivity"/>
+                tools:context="tw.yalan.cafeoffice.cafemap.CafeMapActivity" />
 
             <!--<com.getbase.floatingactionbutton.FloatingActionButton-->
             <!--android:id="@+id/floating_button"-->
@@ -66,12 +66,14 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="@dimen/padding_16"
+
                 android:layout_marginRight="@dimen/padding_16"
                 app:fab_addButtonColorNormal="@color/colorAccent"
                 app:fab_addButtonColorPressed="@color/colorPrimaryDark"
                 app:fab_addButtonPlusIconColor="@color/md_white_1000"
                 app:fab_addButtonSize="normal"
                 app:fab_expandDirection="up"
+                app:fab_labelStyle="@style/menu_labels_style"
                 app:fab_labelsPosition="left">
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
@@ -81,7 +83,8 @@
                     app:fab_colorNormal="@color/colorAccent"
                     app:fab_colorPressed="@color/colorPrimaryDark"
                     app:fab_icon="@drawable/ic_all_inclusive_white_18dp"
-                    app:fab_size="mini"/>
+                    app:fab_size="mini"
+                    app:fab_title="@string/text_all" />
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
                     android:id="@+id/btn_wifi"
@@ -90,7 +93,8 @@
                     app:fab_colorNormal="@color/colorAccent"
                     app:fab_colorPressed="@color/colorPrimaryDark"
                     app:fab_icon="@drawable/ic_network_wifi_white_18dp"
-                    app:fab_size="mini"/>
+                    app:fab_size="mini"
+                    app:fab_title="@string/text_wifi" />
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
                     android:id="@+id/btn_cheap"
@@ -100,7 +104,7 @@
                     app:fab_colorPressed="@color/colorPrimaryDark"
                     app:fab_icon="@drawable/ic_attach_money_white_18dp"
                     app:fab_size="mini"
-                    app:fab_title="Click to remove"/>
+                    app:fab_title="@string/text_cheap" />
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
                     android:id="@+id/btn_seat"
@@ -109,7 +113,8 @@
                     app:fab_colorNormal="@color/colorAccent"
                     app:fab_colorPressed="@color/colorPrimaryDark"
                     app:fab_icon="@drawable/ic_event_seat_white_18dp"
-                    app:fab_size="mini"/>
+                    app:fab_size="mini"
+                    app:fab_title="@string/text_seat" />
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
                     android:id="@+id/btn_quiet"
@@ -118,7 +123,8 @@
                     app:fab_colorNormal="@color/colorAccent"
                     app:fab_colorPressed="@color/colorPrimaryDark"
                     app:fab_icon="@drawable/ic_queue_music_white_18dp"
-                    app:fab_size="mini"/>
+                    app:fab_size="mini"
+                    app:fab_title="@string/text_quiet" />
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
                     android:id="@+id/btn_music"
@@ -127,7 +133,8 @@
                     app:fab_colorNormal="@color/colorAccent"
                     app:fab_colorPressed="@color/colorPrimaryDark"
                     app:fab_icon="@drawable/ic_surround_sound_white_18dp"
-                    app:fab_size="mini"/>
+                    app:fab_size="mini"
+                    app:fab_title="@string/text_music" />
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
                     android:id="@+id/btn_cafe"
@@ -136,7 +143,8 @@
                     app:fab_colorNormal="@color/colorAccent"
                     app:fab_colorPressed="@color/colorPrimaryDark"
                     app:fab_icon="@drawable/ic_local_cafe_white_18dp"
-                    app:fab_size="mini"/>
+                    app:fab_size="mini"
+                    app:fab_title="@string/text_tasty" />
             </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
             <RelativeLayout

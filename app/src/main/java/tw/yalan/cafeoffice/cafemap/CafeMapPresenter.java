@@ -47,7 +47,14 @@ public class CafeMapPresenter extends BasePresenter<CafeMapActivity> {
 
     @Override
     public void onActivityCreate(Bundle extras) {
+        initDefaultValues();
+        getContract().initViews();
+    }
 
+    private void initDefaultValues() {
+        String filterLevel = ModelManager.get().getUserModel().getFilterLevel();
+        if (filterLevel != null && filterLevel.isEmpty())
+            ModelManager.get().getUserModel().putFilterLevel("3.5");
     }
 
     @Override
@@ -133,7 +140,8 @@ public class CafeMapPresenter extends BasePresenter<CafeMapActivity> {
         if (cafeList != null) {
             for (Cafe cafe : cafeList) {
                 if (mType != FilterType.ALL) {
-                    if (cafe.getScoreByFilterType(mType) < 3.0d) continue;
+                    if (cafe.getScoreByFilterType(mType) < Double.valueOf(ModelManager.get().getUserModel().getFilterLevel()))
+                        continue;
                 }
                 String[] distance = MapUtils.getDistance(myLocation, new LatLng(Double.valueOf(cafe.getLatitude()), Double.valueOf(cafe.getLongitude())));
                 Integer distanceM = Integer.valueOf(distance[0]);
@@ -167,7 +175,7 @@ public class CafeMapPresenter extends BasePresenter<CafeMapActivity> {
 
             for (Cafe cafe : cafeList) {
                 double scoreByFilterType = cafe.getScoreByFilterType(type);
-                if (scoreByFilterType >= 3.0d) {
+                if (scoreByFilterType >= Double.valueOf(ModelManager.get().getUserModel().getFilterLevel())) {
                     afterFilterList.add(cafe);
                 }
             }

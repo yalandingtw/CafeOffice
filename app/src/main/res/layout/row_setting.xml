@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="tw.yalan.cafeoffice.model.SettingItem"></variable>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_16">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.getTitle()}"
+            android:layout_centerVertical="true"
+            android:textColor="@color/setting_text"
+            android:textSize="20sp"
+            tools:text="快篩最低分數" />
+
+        <TextView
+            android:id="@+id/tv_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_title"
+            android:gravity="right"
+            android:textSize="20sp"
+            android:layout_centerVertical="true"
+            android:text="@{item.getValue()}"
+            android:textColor="@color/md_grey_700"
+            tools:text="3.5" />
+    </RelativeLayout>
+</layout>

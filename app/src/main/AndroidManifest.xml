@@ -7,8 +7,8 @@
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the 'MyLocation' functionality. 
     -->
-    <!--<uses-permission android:name="android.permission.GET_ACCOUNTS" />-->
-    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
+    <!-- <uses-permission android:name="android.permission.GET_ACCOUNTS" /> -->
+    <!-- <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -21,6 +21,7 @@
     <permission
         android:name="tw.yalan.cafeoffice.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
+
     <application
         android:name=".CafeOfficeApplication"
         android:allowBackup="true"
@@ -51,6 +52,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".setting.SettingActivity"></activity>
     </application>
 
 </manifest>

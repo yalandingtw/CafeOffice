@@ -17,4 +17,7 @@
     <string name="text_near_my">離我最近</string>
     <string name="alert_donot_find">沒找到最近的咖啡廳</string>
     <string name="alert_data_empty">請先選擇地區</string>
+    <string name="title_setting">設定</string>
+    <string name="setting_item_filter">篩選評分下限</string>
+    <string name="text_all">全部</string>
 </resources>
