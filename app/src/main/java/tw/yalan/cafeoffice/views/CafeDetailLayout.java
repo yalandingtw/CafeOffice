@@ -1,4 +1,4 @@
-package tw.yalan.cafeoffice;
+package tw.yalan.cafeoffice.views;
 
 /**
  * Copyright (C) 2016 Alan Ding
@@ -29,6 +29,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import tw.yalan.cafeoffice.R;
 import tw.yalan.cafeoffice.common.NavigationAction;
 import tw.yalan.cafeoffice.model.Cafe;
 

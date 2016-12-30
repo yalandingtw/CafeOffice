@@ -42,7 +42,7 @@ import java.util.concurrent.Executors;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import tw.yalan.cafeoffice.CafeDetailLayout;
+import tw.yalan.cafeoffice.views.CafeDetailLayout;
 import tw.yalan.cafeoffice.Config;
 import tw.yalan.cafeoffice.R;
 import tw.yalan.cafeoffice.adapter.MenuRecyclerAdapter;

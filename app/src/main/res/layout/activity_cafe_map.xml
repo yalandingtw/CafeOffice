@@ -161,10 +161,10 @@
                     android:layout_above="@+id/layout_cafe_detail"
                     android:background="@drawable/bg_shadow"></View>
 
-                <tw.yalan.cafeoffice.CafeDetailLayout
+                <tw.yalan.cafeoffice.views.CafeDetailLayout
                     android:id="@+id/layout_cafe_detail"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></tw.yalan.cafeoffice.CafeDetailLayout>
+                    android:layout_height="wrap_content"></tw.yalan.cafeoffice.views.CafeDetailLayout>
             </RelativeLayout>
 
         </RelativeLayout>
