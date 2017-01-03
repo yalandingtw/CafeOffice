@@ -43,9 +43,16 @@ public class FilterLevelPicker {
     private MaterialNumberPicker filterLeftPicker, filterRightPicker;
     private Context context;
     private String currentLevel;
+    private String title = "設定";
 
     public FilterLevelPicker(Context context) {
         this.context = context;
+        buildPickers();
+    }
+
+    public FilterLevelPicker(Context context, String title) {
+        this.context = context;
+        this.title = title;
         buildPickers();
     }
 
@@ -64,6 +71,9 @@ public class FilterLevelPicker {
     }
 
     public void show() {
+        if (filterDialog.isShowing()) {
+            return;
+        }
         filterDialog.show();
     }
 
@@ -93,7 +103,7 @@ public class FilterLevelPicker {
         pickerLayout.addView(filterRightPicker);
         pickerLayout.setGravity(Gravity.CENTER);
         pickerLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        AlertDialog.Builder builder = PickerFactory.createAlertDialog(context, "設定")
+        AlertDialog.Builder builder = PickerFactory.createAlertDialog(context, title)
                 .setNegativeButton("確定", (dialogInterface, i) -> {
                     String newLevel = String.valueOf(filterLeftPicker.getValue()) + "." + String.valueOf(filterRightPicker.getValue());
                     currentLevel = newLevel;

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package tw.yalan.cafeoffice.common;
+package tw.yalan.cafeoffice.common.actions;
 
 import android.content.Context;
 import android.content.Intent;

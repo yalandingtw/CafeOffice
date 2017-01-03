@@ -28,9 +28,7 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import tw.yalan.cafeoffice.R;
-import tw.yalan.cafeoffice.common.NavigationAction;
 import tw.yalan.cafeoffice.model.Cafe;
 
 /**
@@ -59,6 +57,8 @@ public class CafeDetailLayout extends RelativeLayout {
     Cafe cafe;
     @BindView(R.id.btn_navigation)
     Button btnNavigation;
+    @BindView(R.id.btn_search_google)
+    Button btnSearchGoogle;
 
     public CafeDetailLayout(Context context) {
         super(context);
@@ -103,4 +103,7 @@ public class CafeDetailLayout extends RelativeLayout {
         return btnNavigation;
     }
 
+    public Button getBtnSearchGoogle() {
+        return btnSearchGoogle;
+    }
 }

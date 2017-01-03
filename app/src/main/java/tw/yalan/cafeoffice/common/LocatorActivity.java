@@ -26,6 +26,7 @@ import android.support.v4.app.ActivityCompat;
 import java.util.List;
 
 import tw.yalan.cafeoffice.Config;
+import tw.yalan.cafeoffice.data.ModelManager;
 import tw.yalan.cafeoffice.model.Cafe;
 import tw.yalan.cafeoffice.utils.GeoLocator;
 

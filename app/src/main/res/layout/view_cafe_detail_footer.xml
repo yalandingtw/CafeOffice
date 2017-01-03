@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/colorPrimary">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary">
 
     <TextView
         android:id="@+id/tv_name"
@@ -16,7 +16,7 @@
         android:paddingTop="@dimen/padding_8"
         android:textColor="@android:color/white"
         android:textSize="20sp"
-        tools:text="凸鼻子現烘咖啡坊" />
+        tools:text="凸鼻子現烘咖啡坊"/>
 
     <TextView
         android:id="@+id/tv_address"
@@ -29,7 +29,7 @@
         android:paddingRight="@dimen/padding_8"
         android:textColor="@android:color/white"
         android:textSize="14sp"
-        tools:text="凸鼻子現烘咖啡坊" />
+        tools:text="凸鼻子現烘咖啡坊"/>
 
     <TextView
         android:id="@+id/tv_distance"
@@ -40,7 +40,7 @@
         android:padding="@dimen/padding_8"
         android:textColor="@android:color/white"
         android:textSize="20sp"
-        tools:text="20M" />
+        tools:text="20M"/>
 
 
     <Button
@@ -49,17 +49,30 @@
         android:layout_height="24dp"
         android:layout_alignBottom="@id/tv_address"
         android:layout_marginRight="@dimen/padding_8"
-        android:layout_alignParentRight="true"
+        android:layout_toLeftOf="@+id/btn_search_google"
         android:background="@drawable/round"
         android:text="@string/navigation"
         android:textColor="@android:color/white"
-        android:textSize="12sp" />
+        android:textSize="12sp"/>
+
+    <Button
+        android:id="@+id/btn_search_google"
+        android:layout_width="60dp"
+        android:layout_height="24dp"
+        android:layout_alignBottom="@id/tv_address"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/padding_8"
+        android:background="@drawable/round"
+        android:text="@string/searching_google"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_address"
         android:background="@android:color/white"
+        android:paddingBottom="@dimen/padding_8"
         android:paddingLeft="@dimen/padding_32"
         android:paddingRight="@dimen/padding_32"
         android:paddingTop="@dimen/padding_16">
@@ -77,7 +90,7 @@
                 android:padding="@dimen/padding_8"
                 android:text="@string/text_wifi"
                 android:textColor="@android:color/black"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/tv_rating_wifi"
@@ -86,7 +99,7 @@
                 android:padding="@dimen/padding_8"
                 android:textColor="@android:color/black"
                 android:textSize="12sp"
-                tools:text="3.5" />
+                tools:text="3.5"/>
 
 
         </LinearLayout>
@@ -105,7 +118,7 @@
                 android:padding="@dimen/padding_8"
                 android:text="@string/text_seat"
                 android:textColor="@android:color/black"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/tv_rating_seat"
@@ -114,7 +127,7 @@
                 android:padding="@dimen/padding_8"
                 android:textColor="@android:color/black"
                 android:textSize="12sp"
-                tools:text="3.5" />
+                tools:text="3.5"/>
         </LinearLayout>
 
         <LinearLayout
@@ -131,7 +144,7 @@
                 android:padding="@dimen/padding_8"
                 android:text="@string/text_quiet"
                 android:textColor="@android:color/black"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/tv_rating_quiet"
@@ -140,7 +153,7 @@
                 android:padding="@dimen/padding_8"
                 android:textColor="@android:color/black"
                 android:textSize="12sp"
-                tools:text="3.5" />
+                tools:text="3.5"/>
         </LinearLayout>
 
 
@@ -159,7 +172,7 @@
                 android:padding="@dimen/padding_8"
                 android:text="@string/text_tasty"
                 android:textColor="@android:color/black"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/tv_rating_tasty"
@@ -168,7 +181,7 @@
                 android:padding="@dimen/padding_8"
                 android:textColor="@android:color/black"
                 android:textSize="12sp"
-                tools:text="3.5" />
+                tools:text="3.5"/>
 
 
         </LinearLayout>
@@ -187,7 +200,7 @@
                 android:padding="@dimen/padding_8"
                 android:text="@string/text_cheap"
                 android:textColor="@android:color/black"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/tv_rating_cheap"
@@ -196,7 +209,7 @@
                 android:padding="@dimen/padding_8"
                 android:textColor="@android:color/black"
                 android:textSize="12sp"
-                tools:text="3.5" />
+                tools:text="3.5"/>
         </LinearLayout>
 
         <LinearLayout
@@ -214,7 +227,7 @@
                 android:padding="@dimen/padding_8"
                 android:text="@string/text_music"
                 android:textColor="@android:color/black"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/tv_rating_music"
@@ -223,7 +236,7 @@
                 android:padding="@dimen/padding_8"
                 android:textColor="@android:color/black"
                 android:textSize="12sp"
-                tools:text="3.5" />
+                tools:text="3.5"/>
         </LinearLayout>
 
 

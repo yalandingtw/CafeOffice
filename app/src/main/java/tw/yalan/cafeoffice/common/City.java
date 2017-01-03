@@ -22,13 +22,15 @@ import com.google.android.gms.maps.model.LatLng;
  * Created by Alan Ding on 2016/12/31.
  */
 public enum City {
-    TAIPEI(25.0437847, 121.526903), TAICHUNG(24.1375006, 120.6844106), HSINCHU(24.8015844, 120.9694678), KAOHSIUNG(22.6384266, 120.3038419);
+    TAIPEI(25.0437847, 121.526903, "台北"), TAICHUNG(24.1375006, 120.6844106, "台中"), HSINCHU(24.8015844, 120.9694678, "新竹"), KAOHSIUNG(22.6384266, 120.3038419, "高雄");
     double lat;
     double lng;
+    String cityName;
 
-    City(double lng, double lat) {
+    City(double lat, double lng, String cityName) {
         this.lng = lng;
         this.lat = lat;
+        this.cityName = cityName;
     }
 
     public LatLng getLatLng() {
@@ -41,5 +43,9 @@ public enum City {
 
     public double getLng() {
         return lng;
+    }
+
+    public String getCityName() {
+        return cityName;
     }
 }

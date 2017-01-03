@@ -52,6 +52,7 @@ public class CafeMapPresenter extends BasePresenter<CafeMapActivity> {
     GoogleGeoAPI geoAPI;
     API api;
     String currentCityShortName = "";
+    String currentFilterLevel = "3.5";
 
     @Override
     public void onActivityCreate(Bundle extras) {
@@ -63,11 +64,14 @@ public class CafeMapPresenter extends BasePresenter<CafeMapActivity> {
         String filterLevel = ModelManager.get().getUserModel().getFilterLevel();
         if (filterLevel != null && filterLevel.isEmpty())
             ModelManager.get().getUserModel().putFilterLevel("3.5");
+
+        currentFilterLevel = ModelManager.get().getUserModel().getFilterLevel();
     }
 
     @Override
     public void onActivityResume() {
-
+        String filterLevel = ModelManager.get().getUserModel().getFilterLevel();
+        getContract().updateFilterLevel(filterLevel);
     }
 
     @Override
@@ -92,19 +96,23 @@ public class CafeMapPresenter extends BasePresenter<CafeMapActivity> {
 
         switch (city) {
             case 0:
-                getContract().move(City.TAIPEI.getLatLng());
+                if (!currentCityShortName.contains(City.TAIPEI.getCityName()) && !currentCityShortName.contains("新北"))
+                    getContract().move(City.TAIPEI.getLatLng(), CafeMapActivity.DefaultZoomLevel);
                 api.requestTaipeiCafes();
                 break;
             case 1:
-                getContract().move(City.TAIPEI.getLatLng());
+                if (!currentCityShortName.contains(City.HSINCHU.getCityName()))
+                    getContract().move(City.HSINCHU.getLatLng(), CafeMapActivity.DefaultZoomLevel);
                 api.requestHsinchuCafes();
                 break;
             case 2:
-                getContract().move(City.TAIPEI.getLatLng());
+                if (!currentCityShortName.contains(City.TAICHUNG.getCityName()))
+                    getContract().move(City.TAICHUNG.getLatLng(), CafeMapActivity.DefaultZoomLevel);
                 api.requestTaichungCafes();
                 break;
             case 3:
-                getContract().move(City.TAIPEI.getLatLng());
+                if (!currentCityShortName.contains(City.KAOHSIUNG.getCityName()))
+                    getContract().move(City.KAOHSIUNG.getLatLng(), CafeMapActivity.DefaultZoomLevel);
                 api.requestKaohsiungCafes();
                 break;
         }
@@ -167,14 +175,14 @@ public class CafeMapPresenter extends BasePresenter<CafeMapActivity> {
         Config.loge("cafe count:" + cafes.size());
         ArrayList cafeList = new ArrayList(cafes);
         ModelManager.get().getUserModel().putCafeList(cafeList);
-        filterCafe(mType);
+        filterCafe(mType, currentFilterLevel);
     }
 
     public void onCameraIdle() {
-        filterCafe(mType, false, true);
+        filterCafe(mType, currentFilterLevel, false, true);
     }
 
-    public void searchNearCafe(Location mCurrentLocation) {
+    public void searchNearCafe(Location mCurrentLocation, boolean filterAll) {
         Config.loge("search " + mCurrentLocation);
         ArrayList<Cafe> cafeList = ModelManager.get().getUserModel().getCafeList();
         Cafe neaiestCafe = null;
@@ -183,7 +191,7 @@ public class CafeMapPresenter extends BasePresenter<CafeMapActivity> {
         if (cafeList != null) {
             for (Cafe cafe : cafeList) {
                 if (mType != FilterType.ALL) {
-                    if (cafe.getScoreByFilterType(mType) < Double.valueOf(ModelManager.get().getUserModel().getFilterLevel()))
+                    if (!filterAll && cafe.getScoreByFilterType(mType) < Double.valueOf(currentFilterLevel))
                         continue;
                 }
                 String[] distance = MapUtils.getDistance(myLocation, new LatLng(Double.valueOf(cafe.getLatitude()), Double.valueOf(cafe.getLongitude())));
@@ -202,12 +210,14 @@ public class CafeMapPresenter extends BasePresenter<CafeMapActivity> {
         getContract().showNearMyCafe(neaiestCafe);
     }
 
-    public void filterCafe(FilterType type) {
-        filterCafe(type, true, false);
+    public void filterCafe(FilterType type, String filterLevel) {
+        filterCafe(type, filterLevel, true, false);
     }
 
-    public void filterCafe(FilterType type, boolean clearMarker, boolean skipAlert) {
+    public void filterCafe(FilterType type, String filterLevel, boolean clearMarker, boolean skipAlert) {
         this.mType = type;
+        if (!filterLevel.isEmpty())
+            this.currentFilterLevel = filterLevel;
         ArrayList<Cafe> cafeList = ModelManager.get().getUserModel().getCafeList();
         if (cafeList != null) {
             if (mType == FilterType.ALL) {
@@ -218,7 +228,7 @@ public class CafeMapPresenter extends BasePresenter<CafeMapActivity> {
 
             for (Cafe cafe : cafeList) {
                 double scoreByFilterType = cafe.getScoreByFilterType(type);
-                if (scoreByFilterType >= Double.valueOf(ModelManager.get().getUserModel().getFilterLevel())) {
+                if (scoreByFilterType >= Double.valueOf(filterLevel)) {
                     afterFilterList.add(cafe);
                 }
             }
