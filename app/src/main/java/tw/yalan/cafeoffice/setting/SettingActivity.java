@@ -30,16 +30,15 @@ import tw.yalan.cafeoffice.common.ColorfulDividerItemDecoration;
 import tw.yalan.cafeoffice.databinding.RowSettingBinding;
 import tw.yalan.cafeoffice.model.SettingItem;
 import tw.yalan.cafeoffice.utils.PickerFactory;
+import tw.yalan.cafeoffice.views.FilterLevelPicker;
 
 @UsingPresenter(value = SettingPresenter.class, singleton = false)
 public class SettingActivity extends BaseActivity<SettingPresenter> {
 
     @BindView(R.id.recycler)
     RecyclerView recycler;
-    AlertDialog filterDialog;
-    MaterialNumberPicker filterLeftPicker, filterRightPicker;
     ObservableArrayList<SettingItem> items = new ObservableArrayList<>();
-
+    FilterLevelPicker filterLevelPicker;
     private final ItemType<RowSettingBinding> TYPE_SETTING = new ItemType<RowSettingBinding>(R.layout.row_setting) {
         @Override
         public void onBind(@NotNull RowSettingBinding binding, @NotNull View view, int position) {
@@ -48,9 +47,8 @@ public class SettingActivity extends BaseActivity<SettingPresenter> {
                     case 0://Filter
                         String value = binding.getItem().getValue();
                         String[] defaultValues = value.split("[.]");
-                        filterLeftPicker.setValue(Integer.valueOf(defaultValues[0]));
-                        filterRightPicker.setValue(Integer.valueOf(defaultValues[1]));
-                        filterDialog.show();
+                        filterLevelPicker.setValue(Integer.valueOf(defaultValues[0]), Integer.valueOf(defaultValues[1]));
+                        filterLevelPicker.show();
                         break;
                 }
             });
@@ -67,40 +65,20 @@ public class SettingActivity extends BaseActivity<SettingPresenter> {
         ButterKnife.bind(this);
         initToolbar();
         initRecyclerView();
-        buildPickers();
-    }
+        filterLevelPicker = new FilterLevelPicker(this);
+        filterLevelPicker.setmOnDismissListener(new FilterLevelPicker.OnDismissListener() {
+            @Override
+            public void onSelected(String newSelectedString) {
+                getPresenter().onUpdateNewFilterLevel(Double.valueOf(newSelectedString));
+            }
 
-    private void buildPickers() {
-        LinearLayout pickerLayout = new LinearLayout(this);
-        TextView tvDot = new TextView(this);
-        tvDot.setText(".");
-        tvDot.setGravity(Gravity.BOTTOM);
-        filterLeftPicker = PickerFactory.createNumberPicker(this, 0, 5, 3, null);
-        filterLeftPicker.setOnValueChangedListener((numberPicker, oldVal, newVal) -> {
-            if (newVal == 5) {
-                filterRightPicker.setValue(0);
-                filterRightPicker.setMaxValue(0);
-            } else {
-                if (oldVal == 5)
-                    filterRightPicker.setMaxValue(9);
+            @Override
+            public void onCancel() {
+
             }
         });
-        filterRightPicker = PickerFactory.createNumberPicker(this, 0, 9, 5, null);
-        pickerLayout.addView(filterLeftPicker);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        pickerLayout.addView(tvDot, layoutParams);
-        pickerLayout.addView(filterRightPicker);
-        pickerLayout.setGravity(Gravity.CENTER);
-        pickerLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        AlertDialog.Builder builder = PickerFactory.createAlertDialog(this, "設定")
-                .setNegativeButton("確定", (dialogInterface, i) -> {
-                    String newLevel = String.valueOf(filterLeftPicker.getValue()) + "." + String.valueOf(filterRightPicker.getValue());
-                    getPresenter().onUpdateNewFilterLevel(Double.valueOf(newLevel));
-                }).setPositiveButton("取消", (dialogInterface, i) -> {
-                });
-        builder.setView(pickerLayout);
-        filterDialog = builder.create();
     }
+
 
     private void initRecyclerView() {
         recycler.setLayoutManager(new LinearLayoutManager(this));

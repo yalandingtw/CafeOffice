@@ -233,7 +233,7 @@ public class CafeMapActivity extends LocatorActivity<CafeMapPresenter> implement
                         }
                         currentCity = index;
                         clearMarker();
-                        getPresenter().getCafesData(mCurrentLocation, index);
+                        getPresenter().getCafesData(index);
                         break;
                     case 4://設定
                         changeToActivity(SettingActivity.class, null);
@@ -306,7 +306,7 @@ public class CafeMapActivity extends LocatorActivity<CafeMapPresenter> implement
         }
     }
 
-    private void move(LatLng latLng) {
+    public void move(LatLng latLng) {
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, mMap.getCameraPosition().zoom));
     }
 
@@ -365,6 +365,7 @@ public class CafeMapActivity extends LocatorActivity<CafeMapPresenter> implement
     @Override
     public void updateCurrentLocation(Location location) {
         this.mCurrentLocation = location;
+        getPresenter().updateCurrentLocationDetail(location);
         if (mMap != null) {
             isMoveToMyLocation = true;
             Config.loge("update My Location:" + location.getLatitude() + "/" + location.getLongitude());
@@ -435,7 +436,7 @@ public class CafeMapActivity extends LocatorActivity<CafeMapPresenter> implement
     @OnClick(R.id.tv_near)
     public void onClick() {
         if (mCurrentLocation != null) {
-            showLoadingDialog("查詢中...", true);
+            showLoadingDialog(getString(R.string.searching), true);
             getPresenter().searchNearCafe(mCurrentLocation);
         }
     }

@@ -20,4 +20,5 @@
     <string name="title_setting">設定</string>
     <string name="setting_item_filter">篩選評分下限</string>
     <string name="text_all">全部</string>
+    <string name="searching">查詢中...</string>
 </resources>

@@ -24,6 +24,8 @@ import com.grasea.grandroid.api.Callback;
 import com.grasea.grandroid.api.RemoteProxy;
 import com.grasea.grandroid.api.RequestFail;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,10 +33,13 @@ import retrofit2.Call;
 import retrofit2.Response;
 import tw.yalan.cafeoffice.Config;
 import tw.yalan.cafeoffice.api.API;
+import tw.yalan.cafeoffice.api.GoogleGeoAPI;
 import tw.yalan.cafeoffice.common.BasePresenter;
+import tw.yalan.cafeoffice.common.City;
 import tw.yalan.cafeoffice.common.FilterType;
 import tw.yalan.cafeoffice.data.ModelManager;
 import tw.yalan.cafeoffice.model.Cafe;
+import tw.yalan.cafeoffice.model.GoogleGeoDetail;
 import tw.yalan.cafeoffice.utils.MapUtils;
 
 /**
@@ -44,6 +49,9 @@ public class CafeMapPresenter extends BasePresenter<CafeMapActivity> {
     Location mCurrentLocation;
     String city = "";
     FilterType mType = FilterType.ALL;
+    GoogleGeoAPI geoAPI;
+    API api;
+    String currentCityShortName = "";
 
     @Override
     public void onActivityCreate(Bundle extras) {
@@ -72,22 +80,57 @@ public class CafeMapPresenter extends BasePresenter<CafeMapActivity> {
 
     }
 
-    public void getCafesData(Location mCurrentLocation, int city) {
-        this.mCurrentLocation = mCurrentLocation;
-        API api = RemoteProxy.reflect(API.class, this);
+    public void updateCurrentLocationDetail(Location location) {
+        geoAPI = RemoteProxy.reflect(GoogleGeoAPI.class, this);
+
+        this.mCurrentLocation = location;
+        geoAPI.getMyLocation(location.getLatitude() + "," + location.getLongitude(), "zh-TW", true);
+    }
+
+    public void getCafesData(int city) {
+        api = RemoteProxy.reflect(API.class, this);
+
         switch (city) {
             case 0:
+                getContract().move(City.TAIPEI.getLatLng());
                 api.requestTaipeiCafes();
                 break;
             case 1:
+                getContract().move(City.TAIPEI.getLatLng());
                 api.requestHsinchuCafes();
                 break;
             case 2:
+                getContract().move(City.TAIPEI.getLatLng());
                 api.requestTaichungCafes();
                 break;
             case 3:
+                getContract().move(City.TAIPEI.getLatLng());
                 api.requestKaohsiungCafes();
                 break;
+        }
+    }
+
+    @Callback("getMyLocation")
+    public void onMyLocationDetailResponse(GoogleGeoDetail response) {
+        if ("OK".equals(response.getStatus())) {
+            currentCityShortName = "";
+            for (GoogleGeoDetail.ResultsBean resultsBean : response.getResults()) {
+                if (!currentCityShortName.isEmpty()) {
+                    break;
+                }
+                if (resultsBean.getTypes() != null && resultsBean.getTypes().size() > 0 && resultsBean.getTypes().get(0).equals("street_address")) {
+                    List<GoogleGeoDetail.ResultsBean.AddressComponentsBean> addressComponents = resultsBean.getAddress_components();
+                    for (GoogleGeoDetail.ResultsBean.AddressComponentsBean addressComponent : addressComponents) {
+                        if (addressComponent.getTypes() != null && addressComponent.getTypes().size() > 0 && addressComponent.getTypes().get(0).equals("administrative_area_level_1")) {
+                            currentCityShortName = addressComponent.getShort_name();
+                            Config.logi("目前城市:" + currentCityShortName);
+                            break;
+                        }
+                    }
+                }
+            }
+        } else {
+            //failed
         }
     }
 
@@ -187,4 +230,6 @@ public class CafeMapPresenter extends BasePresenter<CafeMapActivity> {
                 getContract().onCafesDataIsEmpty();
         }
     }
+
+
 }

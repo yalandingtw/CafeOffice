@@ -1,5 +1,6 @@
 package tw.yalan.cafeoffice.common;
 
+import android.location.Location;
 import android.os.Bundle;
 
 import com.grasea.grandroid.api.RemoteProxy;
@@ -39,4 +40,6 @@ public abstract class BasePresenter<C extends GrandroidActivity> extends Grandro
         }
         return api;
     }
+
+
 }
